@@ -1,0 +1,17 @@
+# Данные и модели
+data/
+models/
+*.pkl
+*.pt
+*.bin
+
+# Окружение
+.venv/
+env/
+__pycache__/
+*.pyc
+
+
+# IDE
+.vscode/
+.idea/
