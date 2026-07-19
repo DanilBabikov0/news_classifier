@@ -14,7 +14,7 @@ def load_model_and_vectorizer():
         hidden_dim=256
     ).to(config.DEVICE)
     
-    model_path = os.path.join(config.MODELS_DIR, "baseline_model.pth")
+    model_path = os.path.join(config.BASELINE_MODEL, "baseline_model.pth")
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Модель не найдена: {model_path}. Обучите модель через run_baseline.py")
     
@@ -43,20 +43,7 @@ def predict_text(text: str, model, vectorizer):
 
 
 def get_class_names():
-    return [
-        "climate",
-        "conflicts",
-        "culture",
-        "economy",
-        "gloss",
-        "health",
-        "politics",
-        "science",
-        "society",
-        "sports",
-        "travel"
-    ]
-
+    return config.CLASS_NAMES
 
 def main():
     print("=" * 60)
@@ -93,12 +80,12 @@ def main():
             print(f"   Уверенность: {confidence:.2%}")
             print(f"   Вероятности по классам:")
             for i, p in enumerate(proba):
-                if p > 0.01:  # выводим только значимые
+                if p > 0.01:
                     print(f"      {i} ({class_names[i]}): {p:.2%}")
             print("-" * 40)
 
         except KeyboardInterrupt:
-            print("\nДо встречи!")
+            print("\nДо встречи")
             break
         except Exception as e:
             print(f"Ошибка при обработке: {e}")
