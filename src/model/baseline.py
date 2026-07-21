@@ -1,7 +1,8 @@
 import torch.nn as nn
+import config
 
 class Baseline(nn.Module):
-    def __init__(self, input_dim: int, num_classes: int, hidden_dim: int = 128, dropout: float = 0.2):
+    def __init__(self, input_dim: int, num_classes: int = config.NUM_CLASSES, hidden_dim: int = 128, dropout: float = 0.2):
         super().__init__()
         self.fc1 = nn.Linear(input_dim, hidden_dim)
         self.relu = nn.ReLU()

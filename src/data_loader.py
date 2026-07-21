@@ -6,15 +6,15 @@ import config
 
 
 def load_and_save_raw_datasets():
-    dataset = load_dataset("data-silence/rus_news_classifier")
+    dataset = load_dataset(config.DATASET_NAME)
 
     dataset_train = pd.DataFrame(dataset['train'])
     dataset_test = pd.DataFrame(dataset['test'])
 
     os.makedirs(config.DATA_RAW, exist_ok=True)
 
-    train_path = os.path.join(config.DATA_RAW, "rus_news_classifier_train.csv")
-    test_path = os.path.join(config.DATA_RAW, "rus_news_classifier_test.csv")
+    train_path = os.path.join(config.DATA_RAW, config.TRAIN_CSV_NAME)
+    test_path = os.path.join(config.DATA_RAW, config.TEST_CSV_NAME)
 
     dataset_train.to_csv(train_path, index=False)
     dataset_test.to_csv(test_path, index=False)

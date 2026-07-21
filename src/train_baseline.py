@@ -6,7 +6,7 @@ import json
 import os
 
 import config
-from models import Baseline
+from model.baseline import Baseline
 from utils.tf_idf import vectorize_texts
 from utils.create_dataloader import load_processed_data, create_dataloaders
 from utils.metrics import compute_metrics, plot_confusion_matrix, plot_training_curves

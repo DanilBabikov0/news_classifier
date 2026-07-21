@@ -4,7 +4,7 @@ from joblib import load
 import os
 
 import config
-from models import Baseline
+from models.baseline import Baseline
 from utils.tf_idf import vectorize_texts
 
 def load_model_and_vectorizer():
@@ -14,9 +14,9 @@ def load_model_and_vectorizer():
         hidden_dim=256
     ).to(config.DEVICE)
     
-    model_path = os.path.join(config.BASELINE_MODEL, "baseline_model.pth")
+    model_path = os.path.join(config.BERT_MODEL_NAME, "bert_model.pth")
     if not os.path.exists(model_path):
-        raise FileNotFoundError(f"Модель не найдена: {model_path}. Обучите модель через run_baseline.py")
+        raise FileNotFoundError(f"Модель не найдена: {model_path}.")
     
     model.load_state_dict(torch.load(model_path, map_location=config.DEVICE))
     model.eval()
