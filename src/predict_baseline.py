@@ -4,7 +4,7 @@ from joblib import load
 import os
 
 import config
-from models.baseline import Baseline
+from model.baseline import Baseline
 from utils.tf_idf import vectorize_texts
 
 def load_model_and_vectorizer():
@@ -14,7 +14,7 @@ def load_model_and_vectorizer():
         hidden_dim=256
     ).to(config.DEVICE)
     
-    model_path = os.path.join(config.BERT_MODEL_NAME, "bert_model.pth")
+    model_path = os.path.join(config.BASELINE_MODEL_DIR, "baseline_model.pth")
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"Модель не найдена: {model_path}.")
     
@@ -22,7 +22,7 @@ def load_model_and_vectorizer():
     model.eval()
     print(f"Модель загружена: {model_path}")
 
-    vectorizer_path = os.path.join(config.FEATURES_DIR, "tfidf_vectorizer.joblib")
+    vectorizer_path = os.path.join(config.MLP_VECTORIZER_PATH, "tfidf_vectorizer.joblib")
     vectorizer = load(vectorizer_path)
     print(f"Векторайзер загружен: {vectorizer_path}")
     

@@ -1,4 +1,3 @@
-# src/test_bert.py
 import torch
 import os
 import json
@@ -41,10 +40,6 @@ def load_bert_model():
 
 
 def predict_bert(text: str, model, tokenizer):
-    """
-    Классифицирует текст с помощью ruBERT.
-    Возвращает: pred_class, confidence, probabilities
-    """
     # 1. Токенизация
     encoding = tokenizer(
         text,
@@ -69,9 +64,6 @@ def predict_bert(text: str, model, tokenizer):
 
 
 def print_predictions(pred_class: int, confidence: float, proba: np.ndarray):
-    """
-    Красивый вывод результатов.
-    """
     class_names = config.CLASS_NAMES
     print("\n" + "=" * 50)
     print("Результаты классификации:")
@@ -99,7 +91,6 @@ def main():
     class_names = config.CLASS_NAMES
     print(f"\nДоступно классов: {len(class_names)} → {class_names}\n")
 
-    # Интерактивный режим
     print("Введите текст для классификации.")
     print("   'quit', 'exit', 'q' — выход.\n")
 
@@ -114,7 +105,6 @@ def main():
                 print("До встречи!")
                 break
 
-            # Предсказание
             pred_class, confidence, proba = predict_bert(text, model, tokenizer)
             print_predictions(pred_class, confidence, proba)
             print("-" * 50)

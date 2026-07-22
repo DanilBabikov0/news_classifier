@@ -4,6 +4,7 @@ models/
 *.pkl
 *.pt
 *.bin
+*.sqlite3
 
 # Окружение
 .venv/
@@ -15,6 +16,5 @@ __pycache__/
 # IDE
 .vscode/
 .idea/
-.DS_Store
-src/.DS_Store
-.DS_Store
+*.DS_Store
+._*

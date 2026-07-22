@@ -51,14 +51,17 @@ DATA_RAW = os.path.join(BASE_DIR, "data", "raw")
 DATA_PROCESSED = os.path.join(BASE_DIR, "data", "processed")
 
 MODELS_DIR = os.path.join(BASE_DIR, "models")
-BASELINE_MODEL = os.path.join(MODELS_DIR, "baseline")
-BERT_MODEL = os.path.join(MODELS_DIR, "bert")
-BERT_TINY_MODEL = os.path.join(MODELS_DIR, "bert_tiny")
+BASELINE_MODEL_DIR = os.path.join(MODELS_DIR, "baseline")
+BERT_MODEL_DIR = os.path.join(MODELS_DIR, "bert")
+BERT_TINY_MODEL_DIR = os.path.join(MODELS_DIR, "bert_tiny")
 
-BERT_MODEL_PATH = os.path.join(BERT_MODEL, "bert_model.pth")
-BERT_TINY_MODEL_PATH = os.path.join(BERT_TINY_MODEL, "bert_model.pth")
-BERT_TOKENIZER_PATH = os.path.join(BERT_MODEL, "tokenizer")
-BERT_TINY_TOKENIZER_PATH = os.path.join(BERT_TINY_MODEL, "tokenizer")
+MLP_MODEL_PATH = os.path.join(BASELINE_MODEL_DIR, "baseline_model.pth")
+MLP_VECTORIZER_PATH = os.path.join(BASELINE_MODEL_DIR, "vectorizer")
+
+BERT_MODEL_PATH = os.path.join(BERT_MODEL_DIR, "bert_model.pth")
+BERT_TINY_MODEL_PATH = os.path.join(BERT_TINY_MODEL_DIR, "bert_model.pth")
+BERT_TOKENIZER_PATH = os.path.join(BERT_MODEL_DIR, "tokenizer")
+BERT_TINY_TOKENIZER_PATH = os.path.join(BERT_TINY_MODEL_DIR, "tokenizer")
 
 PLOT_DIR = os.path.join(BASE_DIR, "plots")
 
