@@ -14,12 +14,12 @@
 
 ### Сравнение метрик моделей
 
-| Метрика | MLP | ruBERT | ruBERT-tiny |
-|---------|-----|--------|-------------|
-| Accuracy | ![Accuracy](plots/models_comparison/compare_accuracy.png) | | |
-| Macro F1 | ![Macro F1](plots/models_comparison/compare_macro_f1.png) | | |
-| Balanced Accuracy | ![Balanced Acc](plots/models_comparison/compare_balanced_acc.png) | | |
-| Cohen's Kappa | ![Cohen's Kappa](plots/models_comparison/compare_cohen_kappa.png) | | |
+| Метрика | График |
+|---------|-----|
+| Accuracy | ![Accuracy](plots/models_comparison/compare_accuracy.png) |
+| Macro F1 | ![Macro F1](plots/models_comparison/compare_macro_f1.png) |
+| Balanced Accuracy | ![Balanced Acc](plots/models_comparison/compare_balanced_acc.png) |
+| Cohen's Kappa | ![Cohen's Kappa](plots/models_comparison/compare_cohen_kappa.png) |
 
 ### Per-class F1-score
 
@@ -39,13 +39,13 @@ rus_news_classifier/
 │   ├── config.py                 # Конфигурация проекта
 │   ├── data_loader.py            # Загрузка и предобработка данных
 │   ├── model/                    # Модели
-│   │   ├── baseline.py          # MLP (Baseline)
-│   │   └── ruBERT.py            # ruBERT и ruBERT-tiny
+│   │   ├── baseline.py           # MLP (Baseline)
+│   │   └── ruBERT.py             # ruBERT и ruBERT-tiny
 │   ├── utils/                    # Утилиты
-│   │   ├── metrics.py           # Метрики и визуализация
-│   │   ├── preprocessing.py     # Предобработка текста
-│   │   ├── tf_idf.py            # TF-IDF векторизация
-│   │   └── create_dataloader.py # DataLoader для PyTorch
+│   │   ├── metrics.py            # Метрики и визуализация
+│   │   ├── preprocessing.py      # Предобработка текста
+│   │   ├── tf_idf.py             # TF-IDF векторизация
+│   │   └── create_dataloader.py  # DataLoader для PyTorch
 │   ├── train_baseline.py         # Обучение MLP
 │   ├── train_transformer.py      # Обучение ruBERT
 │   ├── train_ruBERT_tiny.py      # Обучение ruBERT-tiny
@@ -114,6 +114,17 @@ python3 manage.py runserver
 ```
 
 Откройте браузер по адресу `http://localhost:8000`.
+
+
+## Django web-приложение
+
+![Django app](screenshots/django app.png)
+
+Пользователь:
+- вводит текст новости в поле ввода
+- нажимает кнопку "Классифицировать"
+- получает предсказанный класс и вероятности по всем тематикам
+- видит доверительную оценку (уверенность модели)
 
 ## Данные
 
@@ -214,8 +225,15 @@ python3 src/predict_BERT.py
 
 ## Известные проблемы
 
-1. **Несбалансированность данных**: Класс `conflicts` имеет меньшее количество примеров, что влияет на Recall.
-2. **Класс gloss**: Высокая точность, но низкий Recall - модель осторожно предсказывает этот класс.
+| Проблема | Влияние | Причины | Решения |
+|----------|---------|---------|---------|
+| **Недостаток данных по классу `conflicts`** | Recall = 0.62 (среди худших) → 38% новостей пропускается | <10% примеров в обучающей выборке | Аугментация данных |
+| **Класс `gloss`: high precision, low recall** | Accuracy = 0.92, но F1 = 0.68 → модель осторожно предсказывает этот класс | Мало контекстных маркеров, пересечение с `health`, `science` | Добавить ключевые слова в признаки |
+| **Перекрытие классов `economy` ↔ `science`** | F1 = 0.79 → путаница в терминах ("инновации", "рынок") | Использование общих лексем | Добавить ключевые слова в признаки |
+| **Ошибка в `sports` ↔ `society`** | Confusion matrix: 12.4% ошибок | Эмоциональная лексика → модель думает о "социальных событиях" | Добавить ключевые слова в признаки |
+| **Длинные тексты обрезаются** | `BERT_MAX_LENGTH=64` → усечение >30% документов | Модель не видит ключевых абзацев | Увеличить BERT_MAX_LENGTH до 128 |
+
+---
 
 ## Лицензия
 
