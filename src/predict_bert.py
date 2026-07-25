@@ -13,10 +13,10 @@ def load_bert_model():
     tokenizer_path = config.BERT_TOKENIZER_PATH
 
     if not os.path.exists(model_path):
-        raise FileNotFoundError(f"Модель не найдена: {model_path}. Сначала обучите модель!")
+        raise FileNotFoundError(f"Модель не найдена: {model_path}.")
 
     if not os.path.exists(tokenizer_path):
-        raise FileNotFoundError(f"Токенизатор не найден: {tokenizer_path}. Сначала обучите модель!")
+        raise FileNotFoundError(f"Токенизатор не найден: {tokenizer_path}.")
 
     # 2. Загрузка токенизатора
     tokenizer = BertTokenizerFast.from_pretrained(tokenizer_path)
@@ -102,7 +102,7 @@ def main():
                 continue
 
             if text.lower() in ['quit', 'exit', 'q']:
-                print("До встречи!")
+                print("До встречи")
                 break
 
             pred_class, confidence, proba = predict_bert(text, model, tokenizer)
@@ -110,7 +110,7 @@ def main():
             print("-" * 50)
 
         except KeyboardInterrupt:
-            print("\nДо встречи!")
+            print("\nДо встречи")
             break
         except Exception as e:
             print(f"Ошибка при обработке: {e}")

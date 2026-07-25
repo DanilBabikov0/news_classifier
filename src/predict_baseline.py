@@ -69,7 +69,7 @@ def main():
                 continue
 
             if text.lower() in ['quit', 'exit', 'q']:
-                print("До встречи!")
+                print("До встречи")
                 break
 
             # Предсказание

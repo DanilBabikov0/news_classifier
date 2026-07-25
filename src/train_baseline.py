@@ -9,7 +9,7 @@ import config
 from model.baseline import Baseline
 from utils.tf_idf import vectorize_texts
 from utils.create_dataloader import load_processed_data, create_dataloaders
-from utils.metrics import compute_metrics, plot_confusion_matrix, plot_training_curves
+from utils.metrics import plot_training_curves
 from utils.check import check_data_exists
 
 def train_epoch(model, train_loader, criterion, optimizer, device):
@@ -129,11 +129,10 @@ def main():
     
     if best_model_state is not None:
         model.load_state_dict(best_model_state)
-        torch.save(model.state_dict(), os.path.join(config.BASELINE_MODEL, "baseline_model.pth"))
+        torch.save(model.state_dict(), os.path.join(config.BASELINE_MODEL_DIR, "baseline_model.pth"))
         print(f"Модель сохранена. Best Val Acc: {best_val_acc:.2f}%")
 
     print("Обучение завершено")
-
 
     os.makedirs(os.path.join(config.PLOT_DIR, "baseline"), exist_ok=True)
 
@@ -145,34 +144,9 @@ def main():
     plot_path = os.path.join(config.PLOT_DIR, "baseline", "training_curves.png")
     plot_training_curves(history, save_path=plot_path)
 
-    # 9. Финальная оценка на test (после обучения)
-    print("\n" + "=" * 50)
-    print("Финальная оценка на test set:")
-    model.eval()
-    all_preds = []
-    all_labels = []
-    with torch.no_grad():
-        for X_batch, y_batch in test_loader:
-            X_batch, y_batch = X_batch.to(config.DEVICE), y_batch.to(config.DEVICE)
-            outputs = model(X_batch)
-            _, preds = torch.max(outputs, 1)
-            all_preds.extend(preds.cpu().numpy())
-            all_labels.extend(y_batch.cpu().numpy())
-
-    metrics = compute_metrics(all_labels, all_preds, class_names=config.CLASS_NAMES)
-    print(f"Test Accuracy: {metrics['accuracy']:.2%}")
-    print(f"Macro F1: {metrics['macro_f1']:.4f}")
-    print(f"Weighted F1: {metrics['weighted_f1']:.4f}")
-
-    # Confusion Matrix
-    cm_path = os.path.join(config.PLOT_DIR, "baseline", "confusion_matrix.png")
-    plot_confusion_matrix(all_labels, all_preds, config.CLASS_NAMES, save_path=cm_path)
-
     print("\nОбучение завершено! Сохранено:")
-    print(f"   - Модель: {config.BASELINE_MODEL}/baseline_model.pth")
-    print(f"   - Графики: {config.PLOT_DIR}/baseline/training_curves.png")
-    print(f"   - Confusion Matrix: {config.PLOT_DIR}/baseline/confusion_matrix.png")
-    print(f"   - Метрики: {config.PLOT_DIR}/baseline/metrics.json")
+    print(f"   - Модель: {config.BASELINE_MODEL_DIR}/baseline_model.pth")
+    print(f"   - График обучения: {config.PLOT_DIR}/baseline/training_curves.png")
 
 if __name__ == "__main__":
     main()
